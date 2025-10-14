@@ -9,6 +9,7 @@ import Button from '../atoms/Button';
 
 
 
+
 function RegistrationForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -111,6 +112,7 @@ function RegistrationForm() {
   return (
     //Se puede probar con p-3 o p-4
     <form onSubmit={handleSubmit} className="p-3 border rounded shadow-sm bg-light text-start">
+
       <FormGroup
         label="Nombre completo"
         type="text"
@@ -119,9 +121,9 @@ function RegistrationForm() {
         value={formData.name}
         onChange={handleChange}
         required
-
         isValid={errors.name === true}
         isInvalid={errors.name === false && formData.name !== ''}
+
 
       />
       <FormGroup
@@ -132,9 +134,9 @@ function RegistrationForm() {
         value={formData.email}
         onChange={handleChange}
         required
-
         isValid={errors.email === true}
         isInvalid={errors.email === false && formData.email !== ''}
+
 
       />
       <FormGroup
@@ -145,7 +147,6 @@ function RegistrationForm() {
         value={formData.password}
         onChange={handleChange}
         required
-
         isValid={errors.password === true}
         isInvalid={errors.password === false && formData.password !== ''}
 
