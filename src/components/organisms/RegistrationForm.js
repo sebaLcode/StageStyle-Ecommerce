@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import FormGroup from '../molecules/FormGroup';
 import Button from '../atoms/Button';
+import LocationSelector from './LocationSelector';
+import './RegistrationForm.css'
 
 function RegistrationForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    telefono: '',
+    region: '',
+    comuna: ''
   });
 
   const handleChange = (e) => {
-    setFormData({
+    const { name, value } = e.target;
+
+    // Si el usuario cambia la región, la comuna se resetea
+    const newFormData = {
       ...formData,
-      [e.target.name]: e.target.value
-    });
+      [name]: value,
+      ...(name === 'region' && { comuna: '' })
+    };
+
+    setFormData(newFormData);
   };
 
   const handleSubmit = (e) => {
@@ -24,7 +35,7 @@ function RegistrationForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
+    <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light text-start">
       <FormGroup
         label="Nombre completo"
         type="text"
@@ -61,6 +72,21 @@ function RegistrationForm() {
         onChange={handleChange}
         required
       />
+      <FormGroup
+        label="Télefono (opcional)"
+        type="tel"
+        name="telefono"
+        placeholder="+56 9 1234 5678"
+        value={formData.telefono}
+        onChange={handleChange}
+      />
+      <div className="row">
+        <LocationSelector 
+            onLocationChange={handleChange}
+            regionValue={formData.region}
+            comunaValue={formData.comuna}
+        />
+      </div>
       <Button>
         Registrarse
       </Button>
