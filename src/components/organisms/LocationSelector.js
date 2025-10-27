@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import SelectGroup from '../molecules/SelectGroup';
 import regiones  from '../../data/locationData';
 
+
 function LocationSelector({ onLocationChange, regionValue, comunaValue }) {
    const regionOptions = [
         { value: '', label: 'Seleccionar región' },
+
         ...regiones.regiones.map(r => ({ value: r.region, label: r.region })),
     ];
 
     const selectedRegionData = regiones.regiones.find(r => r.region === regionValue);
+
     const availableCommunes = selectedRegionData ? selectedRegionData.comunas : [];
 
     const comunaOptions = [

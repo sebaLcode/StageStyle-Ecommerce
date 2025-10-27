@@ -12,10 +12,8 @@ function FormGroup({ label, type, placeholder, value, onChange, name, required, 
         onChange={onChange}
         name={name}
         required={required}
-
         isValid={isValid}
         isInvalid={isInvalid}
-
       />
     </div>
   );

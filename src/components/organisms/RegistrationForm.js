@@ -8,6 +8,7 @@ import './RegistrationForm.css';
 import Button from '../atoms/Button';
 
 
+
 function RegistrationForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -43,6 +44,16 @@ function RegistrationForm() {
       [name]: value,
       ...(name === 'region' ? { comuna: '' } : {}) // resetear comuna si cambia región
     }));
+
+    // Si el usuario cambia la región, la comuna se resetea
+    // const newFormData = {
+    //   ...formData,
+    //   [name]: value,
+    //   ...(name === 'region' && { comuna: '' })
+    // };
+
+    // setFormData(newFormData);
+
   };
 
 
@@ -100,6 +111,7 @@ function RegistrationForm() {
   return (
     //Se puede probar con p-3 o p-4
     <form onSubmit={handleSubmit} className="p-3 border rounded shadow-sm bg-light text-start">
+
 
       <FormGroup
         label="Nombre completo"
@@ -160,6 +172,7 @@ function RegistrationForm() {
         onChange={handleChange}
       />
       <div className="row">
+
         <LocationSelector
           onLocationChange={handleChange}
           regionValue={formData.region}
@@ -178,6 +191,15 @@ function RegistrationForm() {
         </Link>
       </p>
 
+
+
+        {/* <LocationSelector 
+            onLocationChange={handleChange}
+            regionValue={formData.region}
+            comunaValue={formData.comuna}
+        />
+      </div>
+      <Button text="Registrarse" variant="register" type="submit" /> */}
 
     </form>
   );

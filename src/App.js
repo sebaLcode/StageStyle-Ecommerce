@@ -4,6 +4,7 @@ import Home from './components/pages/Home';
 import './App.css';
 //const HomePage = () => <h2>¡Bienvenido a la página principal!</h2>;
 
+
 function App() {
   return (
     <Router>
