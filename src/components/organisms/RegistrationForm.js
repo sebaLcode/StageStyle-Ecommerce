@@ -7,9 +7,6 @@ import regiones from '../../data/locationData.js';
 import './RegistrationForm.css';
 import Button from '../atoms/Button';
 
-
-
-
 function RegistrationForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -45,6 +42,16 @@ function RegistrationForm() {
       [name]: value,
       ...(name === 'region' ? { comuna: '' } : {}) // resetear comuna si cambia región
     }));
+
+    // Si el usuario cambia la región, la comuna se resetea
+    // const newFormData = {
+    //   ...formData,
+    //   [name]: value,
+    //   ...(name === 'region' && { comuna: '' })
+    // };
+
+    // setFormData(newFormData);
+
 
     // Si el usuario cambia la región, la comuna se resetea
     // const newFormData = {
@@ -110,7 +117,7 @@ function RegistrationForm() {
   };
 
   return (
-    //Se puede probar con p-3 o p-4
+  //Se puede probar con p-3 o p-4
     <form onSubmit={handleSubmit} className="p-3 border rounded shadow-sm bg-light text-start">
 
       <FormGroup
@@ -171,6 +178,7 @@ function RegistrationForm() {
         onChange={handleChange}
       />
       <div className="row">
+
         <LocationSelector
           onLocationChange={handleChange}
           regionValue={formData.region}
@@ -192,6 +200,7 @@ function RegistrationForm() {
 
 
         {/* <LocationSelector 
+
             onLocationChange={handleChange}
             regionValue={formData.region}
             comunaValue={formData.comuna}
@@ -209,6 +218,7 @@ function RegistrationForm() {
           Inicia Sesión
         </Link>
       </p> */}
+
 
     </form>
   );

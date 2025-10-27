@@ -2,11 +2,10 @@ import React from 'react';
 import RegistrationForm from '../organisms/RegistrationForm';
 import NavbarApp from '../organisms/NavbarApp';
 import './RegistrationTemplate.css'
-
-
 function RegistrationTemplate() {
   return (
     <div className='registrationTemplate'>
+
       <NavbarApp />
       <div className="container mt-5 d-flex justify-content-center align-items-center">
         <div className="card p-4" style={{ maxWidth: '600px', width: '100%' }}>
