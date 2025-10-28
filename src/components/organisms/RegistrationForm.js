@@ -204,7 +204,7 @@ function RegistrationForm() {
       <Button text="Registrarse" variant="register" type="submit" />
       <p className="text-center mt-3">
         ¿Ya tienes cuenta?{' '}
-        <Link to="/" className="text-primary text-decoration-none">
+        <Link to="/login" className="text-primary text-decoration-none">
           Inicia Sesión
         </Link>
       </p> */}
