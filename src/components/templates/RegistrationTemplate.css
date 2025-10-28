@@ -1,3 +1,8 @@
+.registrationTemplate{
+    background:linear-gradient(135deg, #FFB6C1, #E3CFF8);
+    min-height: 100vh
+}
+
 .brand-header h2 {
     color: #000000;
     font-weight: 700;
