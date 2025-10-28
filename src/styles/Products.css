@@ -1,0 +1,122 @@
+/* Products Section Styles */
+.container#products {
+  padding: 20px 0 50px;
+}
+
+.category-title {
+  color: var(--texto-oscuro);
+  font-weight: 700;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid var(--morado-pastel);
+  position: relative;
+}
+
+.category-title:after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: var(--amarillo-pastel);
+}
+
+/* Product Cards */
+.product-card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: var(--blanco);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.product-image-container {
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--gris-pastel), var(--blanco));
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.badge-sale {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: var(--amarillo-pastel);
+  color: var(--texto-oscuro);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  z-index: 10;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.card-body {
+  padding: 20px;
+  background: var(--blanco);
+}
+
+.card-title {
+  font-weight: 700;
+  color: var(--texto-oscuro);
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.card-text {
+  color: #777;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  min-height: 40px;
+}
+
+.price {
+  font-weight: 800;
+  color: var(--texto-oscuro);
+  font-size: 1.2rem;
+}
+
+.btn-primary {
+  background-color: var(--rosa-pastel);
+  border-color: var(--rosa-pastel);
+  color: var(--texto-oscuro);
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #FFB6C1;
+  border-color: #FFB6C1;
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-image-container {
+    height: 200px;
+  }
+}

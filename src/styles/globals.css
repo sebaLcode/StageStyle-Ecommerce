@@ -1,0 +1,35 @@
+/* Variables CSS */
+:root {
+  --rosa-pastel: #FFD1DC;
+  --morado-pastel: #D8BFD8;
+  --amarillo-pastel: #FFEAA7;
+  --gris-pastel: #F5F5F5;
+  --blanco: #FFFFFF;
+  --texto-oscuro: #4A4A4A;
+  --amarillo-dorado: #FFD166;
+}
+
+/* Estilos globales */
+body {
+  font-family: 'Baloo 2', sans-serif;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer-content {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards;
+}
+
+/* Retrasos para cada columna del footer */
+.col-lg-3:nth-child(1) { animation-delay: 0.1s; }
+.col-lg-3:nth-child(2) { animation-delay: 0.2s; }
+.col-lg-3:nth-child(3) { animation-delay: 0.3s; }
+.col-lg-3:nth-child(4) { animation-delay: 0.4s; }
