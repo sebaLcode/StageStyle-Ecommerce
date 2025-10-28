@@ -1,14 +1,13 @@
 import React from 'react';
 
-function Button({ text, variant = 'primary', onClick, type = 'button'}){
-    return (
-        <button 
-            className={`btn btn-${variant}`}
-            onClick = {onClick}
-            type={type}
-            >
-            {text}    
-        </button>
-    );
-}
+const Button = ({ children, variant = 'primary', size = 'md', className = '', ...props }) => {
+  const btnClass = `btn btn-${variant} ${size === 'lg' ? 'btn-lg' : ''} ${className}`;
+  
+  return (
+    <button className={btnClass} {...props}>
+      {children}
+    </button>
+  );
+};
+
 export default Button;
