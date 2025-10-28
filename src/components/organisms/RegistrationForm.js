@@ -111,8 +111,6 @@ function RegistrationForm() {
   return (
     //Se puede probar con p-3 o p-4
     <form onSubmit={handleSubmit} className="p-3 border rounded shadow-sm bg-light text-start">
-
-
       <FormGroup
         label="Nombre completo"
         type="text"
@@ -172,7 +170,6 @@ function RegistrationForm() {
         onChange={handleChange}
       />
       <div className="row">
-
         <LocationSelector
           onLocationChange={handleChange}
           regionValue={formData.region}
@@ -200,6 +197,17 @@ function RegistrationForm() {
         />
       </div>
       <Button text="Registrarse" variant="register" type="submit" /> */}
+
+
+        {/* />
+      </div>
+      <Button text="Registrarse" variant="register" type="submit" />
+      <p className="text-center mt-3">
+        ¿Ya tienes cuenta?{' '}
+        <Link to="/" className="text-primary text-decoration-none">
+          Inicia Sesión
+        </Link>
+      </p> */}
 
     </form>
   );
