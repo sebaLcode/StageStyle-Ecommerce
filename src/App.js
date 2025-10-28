@@ -8,6 +8,7 @@ import LoginPage from './components/pages/LoginPage';
 
 
 
+
 function App() {
   return (
     <Router>
@@ -17,7 +18,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
-
         </Routes>
       </div>
     </Router>

@@ -190,6 +190,7 @@ function RegistrationForm() {
 
       <p className="text-center mt-3">
         ¿Ya tienes cuenta?{' '}
+
         <Link to="/login" className="login-link">
           Inicia Sesión
         </Link>
