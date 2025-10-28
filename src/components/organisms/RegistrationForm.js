@@ -119,7 +119,6 @@ function RegistrationForm() {
   return (
   //Se puede probar con p-3 o p-4
     <form onSubmit={handleSubmit} className="p-3 border rounded shadow-sm bg-light text-start">
-
       <FormGroup
         label="Nombre completo"
         type="text"
@@ -178,7 +177,6 @@ function RegistrationForm() {
         onChange={handleChange}
       />
       <div className="row">
-
         <LocationSelector
           onLocationChange={handleChange}
           regionValue={formData.region}
@@ -204,6 +202,7 @@ function RegistrationForm() {
             onLocationChange={handleChange}
             regionValue={formData.region}
             comunaValue={formData.comuna}
+
         />
       </div>
       <Button text="Registrarse" variant="register" type="submit" /> */}
@@ -218,8 +217,6 @@ function RegistrationForm() {
           Inicia Sesión
         </Link>
       </p> */}
-
-
     </form>
   );
 }
