@@ -17,3 +17,12 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+.login-link{
+    color: #ff2e4e;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    color: #e7b323;
+}

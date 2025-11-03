@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FormGroup from '../molecules/FormGroup';
 import Button from '../atoms/Button';
 import LocationSelector from './LocationSelector';
-import './RegistrationForm.css'
+import regiones from '../../data/locationData.js'; 
+import './RegistrationForm.css';
 
 function RegistrationForm() {
   const [formData, setFormData] = useState({
@@ -16,23 +17,82 @@ function RegistrationForm() {
     comuna: ''
   });
 
+  const [errors, setErrors] = useState({}); //Acá controlamos el is-valid / invalid
+  const [comunas, setComunas] = useState([]);
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   // Si el usuario cambia la región, la comuna se resetea
+  //   const newFormData = {
+  //     ...formData,
+  //     [name]: value,
+  //     ...(name === 'region' && { comuna: '' })
+  //   };
+
+  //   setFormData(newFormData);
+  // };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Si el usuario cambia la región, la comuna se resetea
-    const newFormData = {
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-      ...(name === 'region' && { comuna: '' })
-    };
-
-    setFormData(newFormData);
+      ...(name === 'region' ? { comuna: '' } : {}) // resetear comuna si cambia región
+    }));
   };
+
+
+  useEffect(() => {
+    if (formData.region) {
+      const regionSeleccionada = regiones.regiones.find(
+        (r) => r.region === formData.region
+      );
+      setComunas(regionSeleccionada ? regionSeleccionada.comunas : []);
+    } else {
+      setComunas([]);
+    }
+  }, [formData.region]);
+
+  useEffect(() => {
+    const newErrors = {};
+
+    newErrors.name = formData.name.trim().length > 0 && formData.name.length <= 150;
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|duoc\.cl|profesor\.duoc\.cl)$/;
+    newErrors.email = emailRegex.test(formData.email) && formData.email.length <= 100;
+
+    newErrors.password = formData.password.length >= 4 && formData.password.length <= 10;
+
+    newErrors.confirmPassword = formData.password === formData.confirmPassword && formData.confirmPassword.length > 0;
+
+    newErrors.region = formData.region !== '';
+    newErrors.comuna = formData.comuna !== '';
+    setErrors(newErrors);
+  }, [formData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Datos enviados:', formData);
-    // Aquí iría la lógica de envío
+
+    const allValid = Object.values(errors).every(Boolean);
+
+    if (allValid) {
+      alert('Usuario registrado correctamente');
+      console.log('Datos enviados:', formData);
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        telefono: '',
+        region: '',
+        comuna: ''
+      });
+      setErrors({});
+    } else {
+      alert('Errores en los campos');
+    }
   };
 
   return (
@@ -46,6 +106,8 @@ function RegistrationForm() {
         value={formData.name}
         onChange={handleChange}
         required
+        isValid={errors.name === true}
+        isInvalid={errors.name === false && formData.name !== ''}
       />
       <FormGroup
         label="Correo electrónico"
@@ -55,6 +117,8 @@ function RegistrationForm() {
         value={formData.email}
         onChange={handleChange}
         required
+        isValid={errors.email === true}
+        isInvalid={errors.email === false && formData.email !== ''}
       />
       <FormGroup
         label="Contraseña"
@@ -64,6 +128,8 @@ function RegistrationForm() {
         value={formData.password}
         onChange={handleChange}
         required
+        isValid={errors.password === true}
+        isInvalid={errors.password === false && formData.password !== ''}
       />
       <FormGroup
         label="Confirmar contraseña"
@@ -73,6 +139,8 @@ function RegistrationForm() {
         value={formData.confirmPassword}
         onChange={handleChange}
         required
+        isValid={errors.confirmPassword === true}
+        isInvalid={errors.confirmPassword === false && formData.confirmPassword !== ''}
       />
       <FormGroup
         label="Télefono (opcional)"
@@ -96,7 +164,7 @@ function RegistrationForm() {
 
       <p className="text-center mt-3">
         ¿Ya tienes cuenta?{' '}
-        <Link to="/" className="text-primary text-decoration-none">
+        <Link to="/login" className="login-link">
           Inicia Sesión
         </Link>
       </p>
