@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FormGroup from '../molecules/FormGroup';
-import Button from '../atoms/Button';
 import LocationSelector from './LocationSelector';
 import regiones from '../../data/locationData.js';
 import './RegistrationForm.css';
