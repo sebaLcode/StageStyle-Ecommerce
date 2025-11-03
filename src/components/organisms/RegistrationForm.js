@@ -7,8 +7,6 @@ import regiones from '../../data/locationData.js';
 import './RegistrationForm.css';
 import Button from '../atoms/Button';
 
-
-
 function RegistrationForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -44,6 +42,16 @@ function RegistrationForm() {
       [name]: value,
       ...(name === 'region' ? { comuna: '' } : {}) // resetear comuna si cambia región
     }));
+
+    // Si el usuario cambia la región, la comuna se resetea
+    // const newFormData = {
+    //   ...formData,
+    //   [name]: value,
+    //   ...(name === 'region' && { comuna: '' })
+    // };
+
+    // setFormData(newFormData);
+
 
     // Si el usuario cambia la región, la comuna se resetea
     // const newFormData = {
@@ -109,7 +117,7 @@ function RegistrationForm() {
   };
 
   return (
-    //Se puede probar con p-3 o p-4
+  //Se puede probar con p-3 o p-4
     <form onSubmit={handleSubmit} className="p-3 border rounded shadow-sm bg-light text-start">
       <FormGroup
         label="Nombre completo"
@@ -119,9 +127,9 @@ function RegistrationForm() {
         value={formData.name}
         onChange={handleChange}
         required
-
         isValid={errors.name === true}
         isInvalid={errors.name === false && formData.name !== ''}
+
 
       />
       <FormGroup
@@ -132,9 +140,9 @@ function RegistrationForm() {
         value={formData.email}
         onChange={handleChange}
         required
-
         isValid={errors.email === true}
         isInvalid={errors.email === false && formData.email !== ''}
+
 
       />
       <FormGroup
@@ -145,7 +153,6 @@ function RegistrationForm() {
         value={formData.password}
         onChange={handleChange}
         required
-
         isValid={errors.password === true}
         isInvalid={errors.password === false && formData.password !== ''}
 
@@ -183,6 +190,7 @@ function RegistrationForm() {
 
       <p className="text-center mt-3">
         ¿Ya tienes cuenta?{' '}
+
         <Link to="/login" className="login-link">
           Inicia Sesión
         </Link>
@@ -191,9 +199,11 @@ function RegistrationForm() {
 
 
         {/* <LocationSelector 
+
             onLocationChange={handleChange}
             regionValue={formData.region}
             comunaValue={formData.comuna}
+
         />
       </div>
       <Button text="Registrarse" variant="register" type="submit" /> */}
@@ -208,7 +218,6 @@ function RegistrationForm() {
           Inicia Sesión
         </Link>
       </p> */}
-
     </form>
   );
 }

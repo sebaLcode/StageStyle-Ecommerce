@@ -1,6 +1,5 @@
 const regiones = {
 // export const locationData = {
-
     "regiones": [
         {
             "region": "Arica y Parinacota",
@@ -71,4 +70,5 @@ const regiones = {
 };
 
 export default regiones;
+
 

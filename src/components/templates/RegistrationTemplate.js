@@ -2,10 +2,6 @@ import React from 'react';
 import RegistrationForm from '../organisms/RegistrationForm';
 import NavbarApp from '../organisms/NavbarApp';
 import './RegistrationTemplate.css'
-
-import NavbarApp from '../organisms/NavbarApp';
-import './RegistrationTemplate.css'
-
 function RegistrationTemplate() {
   return (
     <div className='registrationTemplate'>

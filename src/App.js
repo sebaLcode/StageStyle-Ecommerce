@@ -3,7 +3,7 @@ import RegistrationPage from './components/pages/RegistrationPage';
 import Home from './components/pages/Home';
 import './App.css';
 import LoginPage from './components/pages/LoginPage';
-//const HomePage = () => <h2>¡Bienvenido a la página principal!</h2>;
+import ProductosPage from './components/pages/ProductosPage';
 
 
 
@@ -16,6 +16,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/productos" element={<ProductosPage />} />
         </Routes>
       </div>
     </Router>
