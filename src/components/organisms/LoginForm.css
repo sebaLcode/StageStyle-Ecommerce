@@ -1,4 +1,4 @@
-.btn-register{
+.btn-login{
     background: linear-gradient(90deg, #FFB6C1, #E3CFF8);
     color: #333333;
     border: none;
@@ -11,19 +11,9 @@
     letter-spacing: 1px;
 }
 
-.btn-register:hover {
+.btn-login:hover {
     background: linear-gradient(90deg, #E3CFF8, #FFB6C1);
     color: #333333;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.login-link{
-    color: #ff2e4e;
-    text-decoration: none;
-}
-
-.login-link:hover {
-    color: #e7b323;
-
 }
