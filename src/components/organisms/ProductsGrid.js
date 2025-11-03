@@ -40,7 +40,9 @@ function ProductGrid() {
         <div className="container mt-4">
             <div className="row">
                 {products.map((p) => (
-                    <ProductCard key={p.id} product={p} />
+                    <div key={p.id} className="col-12 col-md-6 col-lg-4 mb-4">
+                        <ProductCard product={p} />
+                    </div>
                 ))}
             </div>
         </div>
