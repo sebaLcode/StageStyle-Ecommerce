@@ -1,11 +1,23 @@
-import Home from './components/pages/Home';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './contexts/CartContext';
+import Home from './pages/Home';
+import Cart from './pages/Cart';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <CartProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/carrito" element={<Cart />} />
+            {/* Puedes agregar más rutas después */}
+          </Routes>
+        </div>
+      </Router>
+    </CartProvider>
   );
 }
 
