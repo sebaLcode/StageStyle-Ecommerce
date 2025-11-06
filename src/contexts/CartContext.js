@@ -1,6 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
 
-
 // Crear el contexto
 const CartContext = createContext();
 
@@ -74,10 +73,17 @@ export const CartProvider = ({ children }) => {
 
   // Función para agregar producto al carrito
   const addToCart = (product) => {
+    console.log('Añadiendo producto al carrito:', product);
+    
     // Convertir el precio de string a número (ej: "$29.990" → 29990)
-    const precioNumerico = parseInt(
-      product.price.replace('$', '').replace('.', '')
-    );
+    let precioNumerico;
+    if (typeof product.price === 'string') {
+      precioNumerico = parseInt(
+        product.price.replace('$', '').replace('.', '').replace(',', '')
+      );
+    } else {
+      precioNumerico = product.price;
+    }
     
     dispatch({
       type: 'ADD_TO_CART',

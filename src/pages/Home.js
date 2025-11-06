@@ -1,19 +1,18 @@
-import React from 'react';
-import MainLayout from '../templates/MainLayout';
-import HeroSection from '../organisms/HeroSection';
-import ProductGrid from '../organisms/ProductGrid';
 
-// Importar todas las imágenes
-import toteKattesyes from '../../assets/images/ToteKattesyes.png';
-import accesorioRose from '../../assets/images/AccesorioRose.png.png';
-import twicePoleron from '../../assets/images/TwicePoleron.png.png';
-import bts21 from '../../assets/images/Bts21.png.png';
-import jhopePolera from '../../assets/images/J-hopePolera.png.png';
-import enhypenPoleron from '../../assets/images/PoleronEhnypen.png.png';
-import jenniePolera from '../../assets/images/JenniePolera.png.png';
-import jenniePantalones from '../../assets/images/JenniePantalones.png.png';
+import MainLayout from '../components/templates/MainLayout';
+import HeroSection from '../components/organisms/HeroSection';
+import ProductGrid from '../components/organisms/ProductGrid';
+// Importar imágenes
+import toteKattesyes from '../assets/images/ToteKattesyes.png';
+import accesorioRose from '../assets/images/AccesorioRose.png.png';
+import twicePoleron from '../assets/images/TwicePoleron.png.png';
+import bts21 from '../assets/images/Bts21.png.png';
+import jhopePolera from '../assets/images/J-hopePolera.png.png';
+import enhypenPoleron from '../assets/images/PoleronEhnypen.png.png';
+import jenniePolera from '../assets/images/JenniePolera.png.png';
+import jenniePantalones from '../assets/images/JenniePantalones.png.png';
 
-const Home = () => {
+const Home = () => { 
   const products = [
     {
       id: 1,
@@ -81,7 +80,7 @@ const Home = () => {
     }
   ];
 
-  return (
+   return (
     <MainLayout>
       <HeroSection />
       <ProductGrid 

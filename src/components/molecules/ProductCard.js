@@ -3,8 +3,10 @@ import Badge from '../atoms/Badge';
 import ProductImage from '../atoms/ProductImage';
 import PriceTag from '../atoms/PriceTag';
 import Button from '../atoms/Button';
+import { useCart } from '../../contexts/CartContext';
 
 const ProductCard = ({ product }) => {
+  const { addToCart } = useCart();
   const { badge, image, title, description, price } = product;
 
   return (
@@ -16,7 +18,7 @@ const ProductCard = ({ product }) => {
         <p className="card-text">{description}</p>
         <div className="d-flex justify-content-between align-items-center">
           <PriceTag price={price} />
-          <Button>
+          <Button onClick={() => addToCart(product)}>
             Añadir al carrito
           </Button>
         </div>
@@ -26,3 +28,5 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
+
+
