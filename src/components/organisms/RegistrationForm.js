@@ -183,7 +183,7 @@ function RegistrationForm() {
         />
       </div>
 
-      <Button>
+      <Button variant='register'>
         Registrarse
       </Button>
 

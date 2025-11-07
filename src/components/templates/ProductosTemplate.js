@@ -1,11 +1,11 @@
 import React from 'react';
 import ProductGrid from '../organisms/ProductsGrid';
-import NavbarApp from '../organisms/NavbarApp';
+import Navbar from '../organisms/Navbar';
 
 function ProductosTemplate() {
     return (
         <>
-            <NavbarApp />
+            <Navbar />
             <ProductGrid />
         </>
     );

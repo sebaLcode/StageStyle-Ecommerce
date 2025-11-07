@@ -1,12 +1,12 @@
 import React from 'react';
 import LoginForm from '../organisms/LoginForm';
-import NavbarApp from '../organisms/NavbarApp';
+import Navbar from '../organisms/Navbar';
 import './LoginTemplate.css'
 
 function LoginTemplate() {
   return (
     <div className='loginTemplate'>
-      <NavbarApp />
+      <Navbar />
       <div className="container mt-5 d-flex justify-content-center align-items-center" style={{minHeight: '80vh'}}>
         <div className="card p-4" style={{ maxWidth: '600px', width: '100%' }}>
           <div className='brand-header'>

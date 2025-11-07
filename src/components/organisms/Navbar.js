@@ -24,19 +24,18 @@ const Navbar = () => {
           <ul className="navbar-nav ms-auto align-items-lg-center">
             <NavItem href="/">Inicio</NavItem>
             
-            <NavItem href="#" isDropdown dropdownItems={dropdownItems}>
+            <NavItem href="/productos" isDropdown dropdownItems={dropdownItems}>
               Productos
             </NavItem>
-            
-            <NavItem href="#">Ofertas</NavItem>
-            <NavItem href="#contacto">Nosotros</NavItem>
-            <NavItem href="#contacto">Contacto</NavItem>
-            
+          
+            <NavItem href="/nosotros">Nosotros</NavItem>
+            <NavItem href="/blogs">Blogs</NavItem>
+            <NavItem href="/contacto">Contacto</NavItem>
             <NavItem href="/carrito">
               🛒 <span className="contador-carrito">0</span>
             </NavItem>
             
-            <NavItem href="/inicioSesion">
+            <NavItem href="/login">
               <i className="nav-link-icon"></i> Iniciar Sesión
             </NavItem>
           </ul>
