@@ -15,7 +15,7 @@ function NavLinksGroup() {
     return (
         <ul className="navbar-nav ms-auto align-items-lg-center">
             <NavLinkItem to="/" text="Inicio" />
-            <NavDropdown title="Productos" items={productos} />
+            <NavDropdown title="Productos" items={productos} to='/productos'/>
             <NavLinkItem to="/ofertas" text="Ofertas" />
             <NavLinkItem to="/nosotros" text="Nosotros" />
             <NavLinkItem to="/contacto" text="Contacto" />
