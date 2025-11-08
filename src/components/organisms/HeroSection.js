@@ -1,6 +1,5 @@
 import React from 'react';
 import '../../styles/HeroSection.css';
-// Importar la imagen
 import heroImage from '../../assets/images/JenniePrincipal.png';
 
 const HeroSection = () => {

@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import FormGroup from '../molecules/FormGroup';
 import LocationSelector from './LocationSelector';
 import regiones from '../../data/locationData.js';
-import './RegistrationForm.css';
 import Button from '../atoms/Button';
+import usuarios from '../../data/usersData.js';
+
+import './RegistrationForm.css';
 
 function RegistrationForm() {
   const [formData, setFormData] = useState({
@@ -17,21 +19,8 @@ function RegistrationForm() {
     comuna: ''
   });
 
-  const [errors, setErrors] = useState({}); //Acá controlamos el is-valid / invalid
+  const [errors, setErrors] = useState({});
   const [comunas, setComunas] = useState([]);
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   // Si el usuario cambia la región, la comuna se resetea
-  //   const newFormData = {
-  //     ...formData,
-  //     [name]: value,
-  //     ...(name === 'region' && { comuna: '' })
-  //   };
-
-  //   setFormData(newFormData);
-  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,30 +28,9 @@ function RegistrationForm() {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === 'region' ? { comuna: '' } : {}) // resetear comuna si cambia región
+      ...(name === 'region' ? { comuna: '' } : {})
     }));
-
-    // Si el usuario cambia la región, la comuna se resetea
-    // const newFormData = {
-    //   ...formData,
-    //   [name]: value,
-    //   ...(name === 'region' && { comuna: '' })
-    // };
-
-    // setFormData(newFormData);
-
-
-    // Si el usuario cambia la región, la comuna se resetea
-    // const newFormData = {
-    //   ...formData,
-    //   [name]: value,
-    //   ...(name === 'region' && { comuna: '' })
-    // };
-
-    // setFormData(newFormData);
-
   };
-
 
   useEffect(() => {
     if (formData.region) {
@@ -84,11 +52,11 @@ function RegistrationForm() {
     newErrors.email = emailRegex.test(formData.email) && formData.email.length <= 100;
 
     newErrors.password = formData.password.length >= 4 && formData.password.length <= 10;
-
     newErrors.confirmPassword = formData.password === formData.confirmPassword && formData.confirmPassword.length > 0;
 
     newErrors.region = formData.region !== '';
     newErrors.comuna = formData.comuna !== '';
+
     setErrors(newErrors);
   }, [formData]);
 
@@ -98,8 +66,30 @@ function RegistrationForm() {
     const allValid = Object.values(errors).every(Boolean);
 
     if (allValid) {
+      const nuevoUsuario = {
+        id: usuarios.length ? usuarios[usuarios.length - 1].id + 1 : Date.now(),
+        nombre: formData.name.trim(),
+        email: formData.email.trim(),
+        password: formData.password.trim(),
+        telefono: formData.telefono.trim(),
+        region: formData.region,
+        comuna: formData.comuna,
+        tipoUsuario: 'Cliente'
+      };
+
+      const usuariosExistentes = JSON.parse(localStorage.getItem('usuarios')) || usuarios;
+
+      const existe = usuariosExistentes.some(u => u.email === nuevoUsuario.email);
+      if (existe) {
+        alert('Ya existe ese usuario.');
+        return;
+      }
+      const actualizados = [...usuariosExistentes, nuevoUsuario];
+      usuarios.push(nuevoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(actualizados));
       alert('Usuario registrado correctamente');
-      console.log('Datos enviados:', formData);
+      console.log('Usuario agregado:', nuevoUsuario);
+
       setFormData({
         name: '',
         email: '',
@@ -111,12 +101,11 @@ function RegistrationForm() {
       });
       setErrors({});
     } else {
-      alert('Errores en los campos');
+      alert('Error en el formulario, verifica campos...');
     }
   };
 
   return (
-  //Se puede probar con p-3 o p-4
     <form onSubmit={handleSubmit} className="p-3 border rounded shadow-sm bg-light text-start">
       <FormGroup
         label="Nombre completo"
@@ -128,8 +117,6 @@ function RegistrationForm() {
         required
         isValid={errors.name === true}
         isInvalid={errors.name === false && formData.name !== ''}
-
-
       />
       <FormGroup
         label="Correo electrónico"
@@ -141,20 +128,17 @@ function RegistrationForm() {
         required
         isValid={errors.email === true}
         isInvalid={errors.email === false && formData.email !== ''}
-
-
       />
       <FormGroup
         label="Contraseña"
         type="password"
         name="password"
-        placeholder="Mínimo 8 caracteres"
+        placeholder="Mínimo 4 caracteres"
         value={formData.password}
         onChange={handleChange}
         required
         isValid={errors.password === true}
         isInvalid={errors.password === false && formData.password !== ''}
-
       />
       <FormGroup
         label="Confirmar contraseña"
@@ -168,7 +152,7 @@ function RegistrationForm() {
         isInvalid={errors.confirmPassword === false && formData.confirmPassword !== ''}
       />
       <FormGroup
-        label="Télefono (opcional)"
+        label="Teléfono (opcional)"
         type="tel"
         name="telefono"
         placeholder="+56 9 1234 5678"
@@ -183,40 +167,14 @@ function RegistrationForm() {
         />
       </div>
 
-      <Button variant='register'>
-        Registrarse
-      </Button>
+      <Button variant="register">Registrarse</Button>
 
       <p className="text-center mt-3">
         ¿Ya tienes cuenta?{' '}
-
         <Link to="/login" className="login-link">
           Inicia Sesión
         </Link>
       </p>
-
-
-
-        {/* <LocationSelector 
-
-            onLocationChange={handleChange}
-            regionValue={formData.region}
-            comunaValue={formData.comuna}
-
-        />
-      </div>
-      <Button text="Registrarse" variant="register" type="submit" /> */}
-
-
-        {/* />
-      </div>
-      <Button text="Registrarse" variant="register" type="submit" />
-      <p className="text-center mt-3">
-        ¿Ya tienes cuenta?{' '}
-        <Link to="/login" className="text-primary text-decoration-none">
-          Inicia Sesión
-        </Link>
-      </p> */}
     </form>
   );
 }
