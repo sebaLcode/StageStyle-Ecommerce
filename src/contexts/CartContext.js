@@ -71,7 +71,7 @@ export const CartProvider = ({ children }) => {
 
 
   const addToCart = (product) => {
-    console.log('Añadiendo producto al carrito:', product);
+    console.log("Producto recibido en addToCart:", product);
     
   
     let precioNumerico;
@@ -94,6 +94,8 @@ export const CartProvider = ({ children }) => {
         cantidad: 1
       }
     });
+    console.log('Estado actual del carrito (antes del render):', state.items);
+
   };
 
   

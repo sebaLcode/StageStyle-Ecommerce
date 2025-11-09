@@ -3,7 +3,7 @@ import { useCart } from '../../contexts/CartContext';
 
 const Cart = () => {
   const { items, removeFromCart, clearCart, totalPrice } = useCart();
-
+  console.log("Carrito en Cart.jsx:", items);
   if (!items || items.length === 0) {
     return <div style={{ padding: '2rem', textAlign: 'center' }}>Tu carrito está vacío 🛒</div>;
   }

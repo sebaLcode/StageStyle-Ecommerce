@@ -17,8 +17,8 @@ import ProtectedRoute from './components/routes/ProtectedRoutes';
 
 function App() {
   return (
-    <Router>
-      <CartProvider>
+    <CartProvider>
+      <Router>
         <div className="App">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -26,7 +26,7 @@ function App() {
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/productos" element={<ProductosPage />} />
-            
+
             <Route
               path="/admin"
               element={
@@ -77,8 +77,8 @@ function App() {
             />
           </Routes>
         </div>
-      </CartProvider>
-    </Router>
+      </Router>
+    </CartProvider>
   );
 }
 

@@ -1,5 +1,3 @@
-
-
 import MainLayout from '../templates/MainLayout';
 import HeroSection from '../organisms/HeroSection';
 import ProductGrid from '../organisms/ProductGrid';
