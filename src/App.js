@@ -11,6 +11,10 @@ import AdminCustomers from './components/pages/AdminCustomers';
 import AdminEmployees from './components/pages/AdminEmployees';
 import AdminNewUser from './components/pages/AdminNewUser';
 import ProtectedRoute from './components/routes/ProtectedRoutes';
+import Camisetas from './components/pages/Camisetas';
+import Hoodies from './components/pages/Hoodies';
+import Accesorios from './components/pages/Accesorios';
+import ColeccionesEspeciales from './components/pages/ColeccionesEspeciales';
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/productos" element={<ProductosPage />} />
+          <Route path="/camisetas" element={<Camisetas />} />
+          <Route path="/hoodies" element={<Hoodies />} />
+          <Route path="/accesorios" element={<Accesorios />} />
+          <Route path="/colecciones-especiales" element={<ColeccionesEspeciales />} />
 
           <Route
             path="/admin"

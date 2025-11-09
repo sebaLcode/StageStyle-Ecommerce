@@ -17,9 +17,9 @@ const Navbar = () => {
 
   const dropdownItems = [
     { href: "/camisetas", label: "Camisetas" },
-    { href: "/hoddies", label: "Hoodies" },
+    { href: "/hoodies", label: "Hoodies" },
     { href: "/accesorios", label: "Accesorios" },
-    { href: "/coleccionesEspeciales", label: "Colecciones Especiales" }
+    { href: "/colecciones-especiales", label: "Colecciones Especiales" }
   ];
 
   return (
@@ -42,7 +42,7 @@ const Navbar = () => {
           <ul className="navbar-nav ms-auto align-items-lg-center">
             <NavItem href="/">Inicio</NavItem>
 
-            <NavItem href="/productos" isDropdown dropdownItems={dropdownItems}>
+            <NavItem href="#" isDropdown dropdownItems={dropdownItems}>
               Productos
             </NavItem>
 
