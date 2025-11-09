@@ -1,16 +1,17 @@
 
-import MainLayout from '../components/templates/MainLayout';
-import HeroSection from '../components/organisms/HeroSection';
-import ProductGrid from '../components/organisms/ProductGrid';
+
+import MainLayout from '../templates/MainLayout';
+import HeroSection from '../organisms/HeroSection';
+import ProductGrid from '../organisms/ProductGrid';
 // Importar imágenes
-import toteKattesyes from '../assets/images/ToteKattesyes.png';
-import accesorioRose from '../assets/images/AccesorioRose.png.png';
-import twicePoleron from '../assets/images/TwicePoleron.png.png';
-import bts21 from '../assets/images/Bts21.png.png';
-import jhopePolera from '../assets/images/J-hopePolera.png.png';
-import enhypenPoleron from '../assets/images/PoleronEhnypen.png.png';
-import jenniePolera from '../assets/images/JenniePolera.png.png';
-import jenniePantalones from '../assets/images/JenniePantalones.png.png';
+import toteKattesyes from '../../assets/images/ToteKattesyes.png';
+import accesorioRose from '../../assets/images/AccesorioRose.png.png';
+import twicePoleron from '../../assets/images/TwicePoleron.png.png';
+import bts21 from '../../assets/images/Bts21.png.png';
+import jhopePolera from '../../assets/images/J-hopePolera.png.png';
+import enhypenPoleron from '../../assets/images/PoleronEhnypen.png.png';
+import jenniePolera from '../../assets/images/JenniePolera.png.png';
+import jenniePantalones from '../../assets/images/JenniePantalones.png.png';
 
 const Home = () => { 
   const products = [
@@ -79,6 +80,7 @@ const Home = () => {
       price: "$28.750"
     }
   ];
+
 
    return (
     <MainLayout>

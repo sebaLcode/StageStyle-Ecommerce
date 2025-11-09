@@ -1,0 +1,16 @@
+.registrationTemplate{
+    background:linear-gradient(135deg, #FFB6C1, #E3CFF8);
+    min-height: 100vh
+}
+
+.brand-header h2 {
+    color: #000000;
+    font-weight: 700;
+    font-size: 2.2rem;
+    transform: rotate(-2deg);
+}
+
+.brand-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}

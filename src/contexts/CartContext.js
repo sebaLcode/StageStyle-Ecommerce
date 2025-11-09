@@ -1,19 +1,17 @@
 import React, { createContext, useReducer, useContext } from 'react';
-
+export const CartContext = createContext();
 // Crear el contexto
-const CartContext = createContext();
 
-// Reducer para manejar las acciones del carrito
 const cartReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_TO_CART':
-      // Buscar si el producto ya está en el carrito
+      
       const existingItemIndex = state.items.findIndex(
         item => item.id === action.payload.id
       );
       
       if (existingItemIndex > -1) {
-        // Si ya existe, aumentar la cantidad
+       
         const updatedItems = [...state.items];
         updatedItems[existingItemIndex].cantidad += action.payload.cantidad;
         
@@ -22,7 +20,7 @@ const cartReducer = (state, action) => {
           items: updatedItems
         };
       } else {
-        // Si no existe, agregar nuevo producto
+      
         return {
           ...state,
           items: [...state.items, action.payload]
@@ -30,16 +28,16 @@ const cartReducer = (state, action) => {
       }
     
     case 'REMOVE_FROM_CART':
-      // Eliminar producto por índice
+    
       return {
         ...state,
         items: state.items.filter((_, index) => index !== action.payload)
       };
     
     case 'UPDATE_QUANTITY':
-      // Actualizar cantidad de un producto
+      
       if (action.payload.cantidad < 1) {
-        // Si cantidad es 0, eliminar el producto
+      
         return {
           ...state,
           items: state.items.filter((_, index) => index !== action.payload.index)
@@ -56,7 +54,7 @@ const cartReducer = (state, action) => {
       };
     
     case 'CLEAR_CART':
-      // Vaciar todo el carrito
+      
       return {
         ...state,
         items: []
@@ -67,15 +65,15 @@ const cartReducer = (state, action) => {
   }
 };
 
-// Proveedor del contexto
+
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
 
-  // Función para agregar producto al carrito
+
   const addToCart = (product) => {
     console.log('Añadiendo producto al carrito:', product);
     
-    // Convertir el precio de string a número (ej: "$29.990" → 29990)
+  
     let precioNumerico;
     if (typeof product.price === 'string') {
       precioNumerico = parseInt(
@@ -98,7 +96,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Función para eliminar producto del carrito
+  
   const removeFromCart = (index) => {
     dispatch({ 
       type: 'REMOVE_FROM_CART', 
@@ -106,7 +104,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Función para actualizar cantidad
+
   const updateQuantity = (index, cantidad) => {
     dispatch({ 
       type: 'UPDATE_QUANTITY', 
@@ -114,21 +112,21 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Función para vaciar el carrito
+  
   const clearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
   };
 
-  // Calcular total de items
+ 
   const totalItems = state.items.reduce((sum, item) => sum + item.cantidad, 0);
   
-  // Calcular precio total
+  
   const totalPrice = state.items.reduce(
     (sum, item) => sum + (item.precio * item.cantidad), 
     0
   );
 
-  // Valores que estarán disponibles en el contexto
+ 
   const value = {
     items: state.items,
     addToCart,
@@ -146,7 +144,7 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-// Hook personalizado para usar el contexto
+
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
