@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../organisms/Navbar';
 import Footer from '../organisms/Footer';
-
+import BlogImg1 from '../../assets/images/Blogs 1.png';
+import BlogImg2 from '../../assets/images/Blogs 2.png';
 
 
 const Blogs = () => {
@@ -18,11 +19,11 @@ const Blogs = () => {
           <div className="card p-4 shadow-lg mb-5">
             <div className="row align-items-stretch">
               <div className="col-md-6 d-flex flex-column">
-                <h2 className="fw-bold mb-3 pt-5 text-blossom">Aprende a cuidar tus flores en verano #1</h2>
-                <p className="text-muted small">Publicado el 21 Sept 2025 · por Blossom</p>
+                <h2 className="fw-bold mb-3 pt-5 text-blossom">StageStyle conquista Vogue</h2>
+                <p className="text-muted small">Publicado el 04 Octubre 2025 · por StageStyle</p>
                 <p className="mb-3">
-                  Descubre los trucos fáciles para que tus rosas duren más tiempo, e incluso en los días más
-                  calurosos...
+                  StageStyle se volvió viral y llamó la atención de Vogue, donde fue destacado por su estilo único. 
+                  Artistas de todo el mundo mostraron su apoyo y admiración por la marca
                 </p>
 
                 <Link to="#" className="btn btn-custom-blossom btn-lg mt-auto align-self-start mt-3">
@@ -32,7 +33,7 @@ const Blogs = () => {
 
               <div className="col-md-6 text-center">
                 <img 
-                  src="https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco/k/archive/500d47a790195ea0350b2bcc6880026194c0cb3e"
+                  src={BlogImg1}
                   alt="Imagen hero" 
                   className="img-fluid rounded"
                 />
@@ -44,12 +45,11 @@ const Blogs = () => {
           <div className="card p-4 shadow-lg mb-4">
             <div className="row align-items-stretch">
               <div className="col-md-6 d-flex flex-column">
-                <h2 className="fw-bold mb-3 pt-5 text-blossom">El secreto de los tulipanes #2</h2>
-                <p className="text-muted small">Publicado el 21 Sept 2025 · por Blossom</p>
+                <h2 className="fw-bold mb-3 pt-5 text-blossom">Desfile inolvidable</h2>
+                <p className="text-muted small">Publicado el 23 Enero 2025 · por StageStyle</p>
                 <p className="mb-3">
-                  Los tulipanes destacan por sus colores vibrantes, pero tambien tienen significados únicos,
-                  desde la pasión hasta el perdón. Descubre qué significa cada color y cuándo debes
-                  regalarlos.
+                  Gracias a su creciente reconocimiento, StageStyle realizó un desfile de moda espectacular,
+                  con la presencia de numerosos artistas celebrando su creatividad y estilo inconfundible.
                 </p>
 
                 <Link to="#" className="btn btn-custom-blossom btn-lg mt-auto align-self-start mt-3">
@@ -59,7 +59,7 @@ const Blogs = () => {
 
               <div className="col-md-6 text-center">
                 <img 
-                  src="https://c.wallhere.com/photos/a9/48/flowers_colorful_colourfull_tulips-15436.jpg!d"
+                  src={BlogImg2}
                   alt="Imagen hero" 
                   className="img-fluid rounded"
                 />
