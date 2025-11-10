@@ -10,7 +10,11 @@ const AdminProductForm = () => {
         image: "",
         title: "",
         description: "",
+        details: "",
+        sizes: "",
         price: "",
+        originalPrice: "",
+        category: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -26,7 +30,7 @@ const AdminProductForm = () => {
 
         switch (name) {
             case "id":
-                isValid = value.trim().length >= 1;
+                isValid = /^\d+$/.test(value);
                 break;
             case "title":
                 isValid = value.trim().length > 0 && value.length <= 100;
@@ -34,41 +38,73 @@ const AdminProductForm = () => {
             case "description":
                 isValid = value.length <= 500;
                 break;
+            case "details":
+                isValid = value.length <= 300;
+                break;
             case "price":
+            case "originalPrice":
                 isValid = !isNaN(parseFloat(value)) && parseFloat(value) >= 0;
                 break;
-            // case "image":
-            //     isValid = value.trim() === "" || /^https?:\/\/.+\.(jpg|jpeg|png|gif)$/i.test(value);
-            //     break;
+            case "image":
+                isValid =
+                    value.trim() === "" ||
+                    /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+                break;
+            case "category":
+                isValid = value.trim().length > 0;
+                break;
             default:
                 break;
         }
+
         setErrors((prev) => ({ ...prev, [name]: isValid }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const allValid = Object.values(errors).every((v) => v === true);
+        const requiredFields = [
+            "id",
+            "badge",
+            "image",
+            "title",
+            "description",
+            "price",
+            "originalPrice",
+            "category",
+        ];
+
+        let allValid = true;
+        requiredFields.forEach((f) => {
+            validateField(f, formData[f]);
+            if (!formData[f] || errors[f] === false) allValid = false;
+        });
 
         if (!allValid) {
-            alert("Por favor corrige los campos marcados en rojo.");
+            alert("Arregla los campos en rojo.");
             return;
         }
 
         const nuevoProducto = {
-            id: formData.id.trim(),
+            id: parseInt(formData.id),
             badge: formData.badge.trim(),
             image: formData.image.trim(),
             title: formData.title.trim(),
             description: formData.description.trim(),
+            details: formData.details.trim(),
+            sizes:
+                formData.sizes.trim() !== ""
+                    ? formData.sizes.split(",").map((s) => s.trim())
+                    : undefined,
             price: parseFloat(formData.price),
+            originalPrice: parseFloat(formData.originalPrice),
+            category: formData.category.trim(),
         };
 
         productos.push(nuevoProducto);
         localStorage.setItem("productos", JSON.stringify(productos));
 
-        alert("Se añadió correctamente el producto.");
+        alert("Producto añadido correctamente.");
         console.log("Nuevo producto:", nuevoProducto);
 
         setFormData({
@@ -77,7 +113,11 @@ const AdminProductForm = () => {
             image: "",
             title: "",
             description: "",
+            details: "",
+            sizes: "",
             price: "",
+            originalPrice: "",
+            category: "",
         });
         setErrors({});
     };
@@ -89,9 +129,9 @@ const AdminProductForm = () => {
             <form onSubmit={handleSubmit}>
                 <FormGroup
                     label="ID del producto"
-                    type="text"
+                    type="number"
                     name="id"
-                    placeholder="Ej: 1"
+                    placeholder="Ej: 20"
                     value={formData.id}
                     onChange={handleChange}
                     required
@@ -100,12 +140,13 @@ const AdminProductForm = () => {
                 />
 
                 <FormGroup
-                    label="Badge"
+                    label="Badge / Artista"
                     type="text"
                     name="badge"
-                    placeholder="Ej: Blackpink"
+                    placeholder="Ej: Jennie"
                     value={formData.badge}
                     onChange={handleChange}
+                    required
                 />
 
                 <FormGroup
@@ -117,13 +158,14 @@ const AdminProductForm = () => {
                     onChange={handleChange}
                     isValid={errors.image}
                     isInvalid={formData.image && errors.image === false}
+                    required
                 />
 
                 <FormGroup
                     label="Título del producto"
                     type="text"
                     name="title"
-                    placeholder="Ej: Chaleco Ta..."
+                    placeholder="Ej: Ruby Red Eye Baby Tee"
                     value={formData.title}
                     onChange={handleChange}
                     required
@@ -132,27 +174,85 @@ const AdminProductForm = () => {
                 />
 
                 <FormGroup
-                    label="Descripción"
+                    label="Descripción breve"
                     type="text"
                     name="description"
-                    placeholder="Ej: Conjunto especial de Ta..."
+                    placeholder="Ej: T-shirt unisex edición limitada"
                     value={formData.description}
                     onChange={handleChange}
                     isValid={errors.description}
                     isInvalid={formData.description && errors.description === false}
+                    required
                 />
 
                 <FormGroup
-                    label="Precio"
-                    type="number"
-                    name="price"
-                    placeholder="Ej: 12990"
-                    value={formData.price}
+                    label="Detalles (material, edición, etc.)"
+                    type="text"
+                    name="details"
+                    placeholder="Ej: 100% algodón, edición especial"
+                    value={formData.details}
+                    onChange={handleChange}
+                />
+
+                <FormGroup
+                    label="Tallas disponibles (separadas por coma)"
+                    type="text"
+                    name="sizes"
+                    placeholder="Ej: S, M, L, XL"
+                    value={formData.sizes}
+                    onChange={handleChange}
+                />
+
+                <div className="row">
+                    <div className="col-md-6">
+                        <FormGroup
+                            label="Precio actual"
+                            type="number"
+                            name="price"
+                            placeholder="Ej: 29990"
+                            value={formData.price}
+                            onChange={handleChange}
+                            required
+                            isValid={errors.price}
+                            isInvalid={formData.price && errors.price === false}
+                        />
+                    </div>
+
+                    <div className="col-md-6">
+                        <FormGroup
+                            label="Precio original"
+                            type="number"
+                            name="originalPrice"
+                            placeholder="Ej: 34990"
+                            value={formData.originalPrice}
+                            onChange={handleChange}
+                            required
+                            isValid={errors.originalPrice}
+                            isInvalid={
+                                formData.originalPrice && errors.originalPrice === false
+                            }
+                        />
+                    </div>
+                </div>
+
+                <FormGroup
+                    label="Categoría"
+                    as="select"
+                    name="category"
+                    placeholder="Ej: (Camiseta, Hoodie, Especial, Accesorio)"
+                    value={formData.category}
                     onChange={handleChange}
                     required
-                    isValid={errors.price}
-                    isInvalid={formData.price && errors.price === false}
-                />
+                    isValid={errors.category}
+                    isInvalid={formData.category && errors.category === false}
+                >
+                    <option value="">Seleccionar categoría...</option>
+                    <option value="Camiseta">Camiseta</option>
+                    <option value="Polera">Polera</option>
+                    <option value="Hoodie">Hoodie</option>
+                    <option value="Accesorio">Accesorio</option>
+                    <option value="Especial">Especial</option>
+                </FormGroup>
 
                 <div className="d-flex justify-content-center mt-4">
                     <Button type="submit" variant="dark" className="w-50">
