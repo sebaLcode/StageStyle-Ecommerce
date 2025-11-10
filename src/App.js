@@ -16,12 +16,17 @@ import Hoodies from './components/pages/Hoodies';
 import Accesorios from './components/pages/Accesorios';
 import ColeccionesEspeciales from './components/pages/ColeccionesEspeciales';
 import DetalleProducto from './components/pages/DetalleProducto';
+import Nosotros from './components/pages/Nosotros';
+import Blogs from './components/pages/Blogs';
+
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/blogs" element={<Blogs />} />
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
