@@ -1,28 +1,32 @@
+// components/molecules/ProductCard.js
 import React from 'react';
-import Badge from '../atoms/Badge';
-import ProductImage from '../atoms/ProductImage';
+import { Link } from 'react-router-dom';
+import ProductBadge from '../atoms/ProductBadge';
+import ProductButton from '../atoms/ProductButton';
 import PriceTag from '../atoms/PriceTag';
-import Button from '../atoms/Button';
 
 const ProductCard = ({ product }) => {
-  const { badge, image, title, description, price } = product;
-
-  return (
-    <div className="card product-card h-100">
-      <Badge>{badge}</Badge>
-      <ProductImage src={image} alt={title} />
-      <div className="card-body">
-        <h5 className="card-title">{title}</h5>
-        <p className="card-text">{description}</p>
-        <div className="d-flex justify-content-between align-items-center">
-          <PriceTag price={price} />
-          <Button>
-            Añadir al carrito
-          </Button>
+    return (
+        <div className="card product-card h-100">
+            <ProductBadge>{product.artist}</ProductBadge>
+            <div className="product-image-container">
+                <img src={product.image} className="product-image" alt={product.alt} />
+            </div>
+            <div className="card-body">
+                <h5 className="card-title">{product.name}</h5>
+                <p className="card-text">{product.description}</p>
+                <div className="d-flex justify-content-between align-items-center">
+                    <PriceTag amount={product.price} />
+                    <Link 
+                        to={`/detalle-producto/${product.id}`} 
+                        className="btn btn-primary"
+                    >
+                        Ver Detalles
+                    </Link>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ProductCard;

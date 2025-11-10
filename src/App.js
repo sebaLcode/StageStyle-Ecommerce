@@ -15,6 +15,7 @@ import Camisetas from './components/pages/Camisetas';
 import Hoodies from './components/pages/Hoodies';
 import Accesorios from './components/pages/Accesorios';
 import ColeccionesEspeciales from './components/pages/ColeccionesEspeciales';
+import DetalleProducto from './components/pages/DetalleProducto';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/hoodies" element={<Hoodies />} />
           <Route path="/accesorios" element={<Accesorios />} />
           <Route path="/colecciones-especiales" element={<ColeccionesEspeciales />} />
+          <Route path="/detalle-producto/:id" element={<DetalleProducto />} />
 
           <Route
             path="/admin"

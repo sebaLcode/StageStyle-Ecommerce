@@ -1,9 +1,11 @@
 import React from 'react';
 import Navbar from '../organisms/Navbar';
 import ProductGrid from '../organisms/ProductGrid';
+// Importar imágenes
 import JennieBlanco from '../../assets/images/JennieBlanco.png';
 import LisaRoja1 from '../../assets/images/LisaRoja1.png';
-import ZicoPolera from '../../assets/images/ZicoPolera.png'; 
+import ZicoPolera from '../../assets/images/ZicoPolera.png';
+
 
 const Camisetas = () => {
   const products = [
