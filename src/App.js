@@ -18,7 +18,7 @@ import ColeccionesEspeciales from './components/pages/ColeccionesEspeciales';
 import DetalleProducto from './components/pages/DetalleProducto';
 import Nosotros from './components/pages/Nosotros';
 import Blogs from './components/pages/Blogs';
-
+import CartPage from './components/pages/CartPage';
 
 function App() {
   return (
@@ -36,6 +36,7 @@ function App() {
           <Route path="/accesorios" element={<Accesorios />} />
           <Route path="/colecciones-especiales" element={<ColeccionesEspeciales />} />
           <Route path="/detalle-producto/:id" element={<DetalleProducto />} />
+          <Route path="/carrito" element={<CartPage />} />
 
           <Route
             path="/admin"

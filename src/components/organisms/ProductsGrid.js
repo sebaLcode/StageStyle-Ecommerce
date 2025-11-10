@@ -4,6 +4,7 @@ import image1 from '../../assets/images/jhope.png'
 import image2 from '../../assets/images/jkVerde.png'
 import image3 from '../../assets/images/newjeens.png'
 
+//TODO: PODRIAMOS REMOVER ESTE
 function ProductGrid() {
     const products = [
         {
