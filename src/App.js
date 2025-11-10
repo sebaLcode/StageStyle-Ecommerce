@@ -19,6 +19,7 @@ import DetalleProducto from './components/pages/DetalleProducto';
 import Nosotros from './components/pages/Nosotros';
 import Blogs from './components/pages/Blogs';
 import CartPage from './components/pages/CartPage';
+import AdminOrders from './components/pages/AdminOrders';
 
 function App() {
   return (
@@ -83,6 +84,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['Administrador']}>
                 <AdminNewUser />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedRoute allowedRoles={['Administrador', 'Vendedor']}>
+                <AdminOrders />
               </ProtectedRoute>
             }
           />

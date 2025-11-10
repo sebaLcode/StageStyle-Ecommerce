@@ -8,6 +8,37 @@ import CartItemList from "../organisms/CartItemList";
 const CartPage = () => {
     const { cart, updateQuantity, removeFromCart, clearCart, total } = useCart();
 
+    const handleFinalizarCompra = () => {
+        if (cart.length === 0) {
+            alert("Tu carrito está vacío...");
+            return;
+        }
+
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogueado")) || { nombre: "Invitado" };
+
+        const nuevaOrden = {
+            id: Date.now(),
+            user: usuario.nombre || "Invitado",
+            items: cart.map((item) => ({
+                id: item.id,
+                title: item.title,
+                quantity: item.quantity || 1,
+                price: item.price,
+            })),
+            total,
+            date: new Date().toISOString(),
+            status: "Completada",
+        };
+
+        const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+        existingOrders.push(nuevaOrden);
+        localStorage.setItem("orders", JSON.stringify(existingOrders));
+
+        clearCart();
+        alert("Compra finalizada con éxito...");
+        window.location.href = "/";
+    };
+
     return (
         <>
             <Navbar />
@@ -39,13 +70,13 @@ const CartPage = () => {
                         <div className="col-md-4">
                             <div className="card shadow-sm">
                                 <div className="card-body">
-                                    <h5 className="fw-bold">Resumen de compra</h5>
+                                    <h5 className="fw-bold">Resumen de la compra</h5>
                                     <hr />
                                     <div className="d-flex justify-content-between mb-3">
                                         <span>Total:</span>
                                         <strong>${total.toLocaleString("es-CL")}</strong>
                                     </div>
-                                    <Button variant="primary" className="w-100">
+                                    <Button variant="primary" className="w-100" onClick={handleFinalizarCompra}>
                                         Finalizar compra
                                     </Button>
                                 </div>
