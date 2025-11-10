@@ -1,12 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-function ProductButton({ to, text }) {
+
+const ProductButton = ({ children, variant = 'primary', onClick, className = '', ...props }) => {
+    const buttonClass = `btn btn-${variant} ${className}`;
+    
     return (
-        <Link to={to} className="btn btn-primary boton-app">
-            {text}
-        </Link>
+        <button className={buttonClass} onClick={onClick} {...props}>
+            {children}
+        </button>
     );
-}
+};
 
 export default ProductButton;

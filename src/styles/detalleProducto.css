@@ -1,0 +1,246 @@
+.productoDetalleContainer {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.contenedorImagenPrincipal {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #F5F5F5, #FFFFFF);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.productoImagenPrincipal {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* components/pages/DetalleProducto/DetalleProducto.module.css */
+
+/* ... otros estilos ... */
+
+.miniaturasContainer {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.miniatura {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.miniatura:hover {
+    border-color: #FFB6C1;
+    transform: scale(1.05);
+}
+
+.miniaturaActiva {
+    border-color: #FFB6C1;
+    border-width: 3px;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.3);
+}
+
+.productoInfo {
+    padding: 20px;
+}
+
+.productoTitulo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.productoPrecio {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.productoPrecioOriginal {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1.4rem;
+    margin-left: 10px;
+}
+
+.productoDescripcion {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.productoDetallesLista {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.productoDetallesLista li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.selectorTalla {
+    margin-bottom: 20px;
+}
+
+.btnTalla {
+    margin: 5px;
+    border: 2px solid #ddd;
+    background: white;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+/* Sobrescribir estilos de Bootstrap para el estado normal */
+.btnTalla:not(.btnTallaSeleccionada) {
+    border: 2px solid #ddd !important;
+    background: white !important;
+    color: #333 !important;
+}
+
+/* Estilos para cuando está seleccionado */
+.btnTallaSeleccionada {
+    border-color: #FFB6C1 !important;
+    background-color: #FFB6C1 !important;
+    color: white !important;
+}
+
+/* Estilos hover */
+.btnTalla:hover {
+    border-color: #FFB6C1 !important;
+    background-color: #f0f0f0 !important;
+    color: #333 !important;
+}
+
+.btnTallaSeleccionada:hover {
+    border-color: #FFB6C1 !important;
+    background-color: #ff9aae !important;
+    color: white !important;
+}
+
+
+.selectorCantidad {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.btnCantidad {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ddd !important;
+    background: white !important;
+    color: #333 !important;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btnCantidad:hover {
+    border-color: #FFB6C1 !important;
+    background-color: #f8f8f8 !important;
+    color: #333 !important;
+}
+
+.btnCantidad:active {
+    transform: scale(0.95);
+}
+
+.cantidadInput {
+    width: 70px;
+    height: 40px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: white;
+    color: #333;
+}
+
+.cantidadInput:focus {
+    border-color: #FFB6C1;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(255, 182, 193, 0.25);
+}
+
+/* Eliminar flechas del input number */
+.cantidadInput::-webkit-outer-spin-button,
+.cantidadInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.btnAgregarCarrito {
+    background: linear-gradient(90deg, #FFB6C1, #E3CFF8);
+    border: none;
+    color: #333;
+    padding: 12px 30px;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btnAgregarCarrito:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.infoEnvio {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.infoEnvio i {
+    color: #FFB6C1;
+    margin-right: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .productoTitulo {
+        font-size: 1.5rem;
+    }
+
+    .productoPrecio {
+        font-size: 1.4rem;
+    }
+
+    .productoImagenPrincipal {
+        height: 300px;
+    }
+}
