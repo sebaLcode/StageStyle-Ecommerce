@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import NavItem from '../molecules/NavItem';
 import '../../styles/Navbar.css';
+import { useCart } from '../../contexts/CartContext'; 
 
 const Navbar = () => {
   const [usuario, setUsuario] = useState(null);
+  const { totalItems } = useCart();
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('usuarioLogueado'));
@@ -26,6 +28,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg">
       <div className="container">
         <a className="navbar-brand" href="/">StageStyle</a>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -49,11 +52,21 @@ const Navbar = () => {
             <NavItem href="/nosotros">Nosotros</NavItem>
             <NavItem href="/blogs">Blogs</NavItem>
             <NavItem href="/contacto">Contacto</NavItem>
+
             <NavItem href="/carrito">
-              🛒 <span className="contador-carrito">0</span>
+              <div className="position-relative d-inline-block">
+                🛒
+                {totalItems > 0 && (
+                  <span
+                    className="badge bg-dark text-white position-absolute top-0 start-100 translate-middle rounded-pill"
+                    style={{ fontSize: '0.7rem', padding: '0.3em 0.5em' }}
+                  >
+                    {totalItems}
+                  </span>
+                )}
+              </div>
             </NavItem>
 
-            {/* Si se logguea user */}
             {usuario ? (
               <li className="nav-item dropdown">
                 <a
@@ -71,7 +84,8 @@ const Navbar = () => {
                       Mi perfil
                     </a>
                   </li>
-                  {(usuario.tipoUsuario === 'Administrador' || usuario.tipoUsuario === 'Vendedor') && (
+                  {(usuario.tipoUsuario === 'Administrador' ||
+                    usuario.tipoUsuario === 'Vendedor') && (
                     <li>
                       <a className="dropdown-item" href="/admin">
                         Panel administrador

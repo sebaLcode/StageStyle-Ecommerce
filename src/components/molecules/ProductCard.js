@@ -1,24 +1,26 @@
 // components/molecules/ProductCard.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ProductBadge from '../atoms/ProductBadge';
-import ProductButton from '../atoms/ProductButton';
+import Badge from '../atoms/Badge';
+// import ProductButton from '../atoms/ProductButton';
 import PriceTag from '../atoms/PriceTag';
 
+//TODO:CAMBIO ACA
 const ProductCard = ({ product }) => {
+    const {id, badge, image, title, description, price} = product
     return (
         <div className="card product-card h-100">
-            <ProductBadge>{product.artist}</ProductBadge>
+            <Badge>{badge}</Badge>
             <div className="product-image-container">
-                <img src={product.image} className="product-image" alt={product.alt} />
+                <img src={image} className="product-image" alt={product.alt} />
             </div>
             <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
-                <p className="card-text">{product.description}</p>
+                <h5 className="card-title">{title}</h5>
+                <p className="card-text">{description}</p>
                 <div className="d-flex justify-content-between align-items-center">
-                    <PriceTag amount={product.price} />
+                    <PriceTag price={price} />
                     <Link 
-                        to={`/detalle-producto/${product.id}`} 
+                        to={`/detalle-producto/${id}`} 
                         className="btn btn-primary"
                     >
                         Ver Detalles
