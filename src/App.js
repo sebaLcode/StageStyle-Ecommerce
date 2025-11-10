@@ -20,6 +20,7 @@ import Nosotros from './components/pages/Nosotros';
 import Blogs from './components/pages/Blogs';
 import CartPage from './components/pages/CartPage';
 import AdminOrders from './components/pages/AdminOrders';
+import Contacto from './components/pages/Contacto';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/camisetas" element={<Camisetas />} />
           <Route path="/hoodies" element={<Hoodies />} />
           <Route path="/accesorios" element={<Accesorios />} />
+          <Route path="/contacto" element={<Contacto />} />
           <Route path="/colecciones-especiales" element={<ColeccionesEspeciales />} />
           <Route path="/detalle-producto/:id" element={<DetalleProducto />} />
           <Route path="/carrito" element={<CartPage />} />
