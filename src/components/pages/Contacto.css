@@ -1,0 +1,90 @@
+/* src/pages/Contacto.css */
+.contacto-page {
+  min-height: 100vh;
+}
+
+/* Fondo rosado como en la imagen */
+.contacto-background {
+  background: linear-gradient(135deg, #FFB6C1 0%, #E3CFF8 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Contenedor principal del formulario */
+.contacto-form-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Título principal */
+.main-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+/* Cuadrado del formulario */
+.contacto-form-card {
+  background: white;
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+/* Título del formulario */
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Estilos para los inputs */
+.form-control {
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #FFB6C1;
+  box-shadow: 0 0 0 0.2rem rgba(255, 182, 193, 0.25);
+}
+
+.form-label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Botón */
+.btn-login {
+  background: linear-gradient(90deg, #FFB6C1, #E3CFF8);
+  color: #333333;
+  border: none;
+  height: 50px;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 10px;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background: linear-gradient(90deg, #E3CFF8, #FFB6C1);
+  color: #333333;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}

@@ -11,6 +11,7 @@ import AdminCustomers from './components/pages/AdminCustomers';
 import AdminEmployees from './components/pages/AdminEmployees';
 import AdminNewUser from './components/pages/AdminNewUser';
 import ProtectedRoute from './components/routes/ProtectedRoutes';
+import Contacto from './components/pages/Contacto';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/productos" element={<ProductosPage />} />
-
+          <Route path="/contacto" element={<Contacto />} />
           <Route
             path="/admin"
             element={
