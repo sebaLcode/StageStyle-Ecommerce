@@ -35,7 +35,7 @@ const Blogs = () => {
                 <img 
                   src={BlogImg1}
                   alt="Imagen hero" 
-                  className="img-fluid rounded"
+                  className="img-fluid rounded w-75 mx-auto"
                 />
               </div>
             </div>
@@ -61,7 +61,7 @@ const Blogs = () => {
                 <img 
                   src={BlogImg2}
                   alt="Imagen hero" 
-                  className="img-fluid rounded"
+                  className="img-fluid rounded w-75 mx-auto"
                 />
               </div>
             </div>
