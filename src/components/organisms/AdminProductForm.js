@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormGroup from "../molecules/FormGroup";
 import Button from "../atoms/Button";
-import productos from "../../data/productsData";
+import { productService } from "../../services/productService";
 
 const AdminProductForm = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +18,7 @@ const AdminProductForm = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,7 +31,7 @@ const AdminProductForm = () => {
 
         switch (name) {
             case "id":
-                isValid = /^\d+$/.test(value);
+                isValid = value.trim().length > 0;
                 break;
             case "title":
                 isValid = value.trim().length > 0 && value.length <= 100;
@@ -48,7 +49,7 @@ const AdminProductForm = () => {
             case "image":
                 isValid =
                     value.trim() === "" ||
-                    /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
+                    /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/i.test(value);
                 break;
             case "category":
                 isValid = value.trim().length > 0;
@@ -60,17 +61,15 @@ const AdminProductForm = () => {
         setErrors((prev) => ({ ...prev, [name]: isValid }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const requiredFields = [
             "id",
-            "badge",
             "image",
             "title",
             "description",
             "price",
-            "originalPrice",
             "category",
         ];
 
@@ -81,12 +80,14 @@ const AdminProductForm = () => {
         });
 
         if (!allValid) {
-            alert("Arregla los campos en rojo.");
+            alert("Por favor corrige los campos en rojo.");
             return;
         }
 
+        setIsSubmitting(true);
+
         const nuevoProducto = {
-            id: parseInt(formData.id),
+            id: formData.id, 
             badge: formData.badge.trim(),
             image: formData.image.trim(),
             title: formData.title.trim(),
@@ -95,31 +96,41 @@ const AdminProductForm = () => {
             sizes:
                 formData.sizes.trim() !== ""
                     ? formData.sizes.split(",").map((s) => s.trim())
-                    : undefined,
+                    : [],
             price: parseFloat(formData.price),
-            originalPrice: parseFloat(formData.originalPrice),
+            originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : 0,
             category: formData.category.trim(),
         };
 
-        productos.push(nuevoProducto);
-        localStorage.setItem("productos", JSON.stringify(productos));
+        try {
+            // 3. Llamada real a la API
+            await productService.create(nuevoProducto);
 
-        alert("Producto añadido correctamente.");
-        console.log("Nuevo producto:", nuevoProducto);
+            alert("¡Producto añadido correctamente a la base de datos!");
+            console.log("Nuevo producto creado:", nuevoProducto);
 
-        setFormData({
-            id: "",
-            badge: "",
-            image: "",
-            title: "",
-            description: "",
-            details: "",
-            sizes: "",
-            price: "",
-            originalPrice: "",
-            category: "",
-        });
-        setErrors({});
+            // Reseteamos el formulario
+            setFormData({
+                id: "",
+                badge: "",
+                image: "",
+                title: "",
+                description: "",
+                details: "",
+                sizes: "",
+                price: "",
+                originalPrice: "",
+                category: "",
+            });
+            setErrors({});
+
+        } catch (error) {
+            // 4. Manejo de errores que vienen del backend (ej: ID duplicado)
+            console.error("Error al crear:", error);
+            alert("Error al guardar: " + error.message);
+        } finally {
+            setIsSubmitting(false); // Liberamos botón
+        }
     };
 
     return (
@@ -129,7 +140,7 @@ const AdminProductForm = () => {
             <form onSubmit={handleSubmit}>
                 <FormGroup
                     label="ID del producto"
-                    type="number"
+                    type="text"
                     name="id"
                     placeholder="Ej: 20"
                     value={formData.id}
@@ -146,7 +157,6 @@ const AdminProductForm = () => {
                     placeholder="Ej: Jennie"
                     value={formData.badge}
                     onChange={handleChange}
-                    required
                 />
 
                 <FormGroup
@@ -226,7 +236,6 @@ const AdminProductForm = () => {
                             placeholder="Ej: 34990"
                             value={formData.originalPrice}
                             onChange={handleChange}
-                            required
                             isValid={errors.originalPrice}
                             isInvalid={
                                 formData.originalPrice && errors.originalPrice === false
@@ -255,8 +264,13 @@ const AdminProductForm = () => {
                 </FormGroup>
 
                 <div className="d-flex justify-content-center mt-4">
-                    <Button type="submit" variant="dark" className="w-50">
-                        Añadir producto
+                    <Button
+                        type="submit"
+                        variant="dark"
+                        className="w-50"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "Guardando..." : "Añadir producto"}
                     </Button>
                 </div>
             </form>

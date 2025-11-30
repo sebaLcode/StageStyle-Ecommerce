@@ -1,29 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../organisms/Navbar';
 import ProductGrid from '../organisms/ProductGrid';
-import products from '../../data/productsData';
+import { productService } from '../../services/productService';
 
 const ColeccionesEspeciales = () => {
-  const [productosCombinados, setProductosCombinados] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const productosLocal = JSON.parse(localStorage.getItem('productos')) || [];
-    const todos = [...products, ...productosLocal];
-    const productosUnicos = Array.from(
-      new Map(todos.map(p => [p.id, p])).values()
-    );
+    const fetchEspeciales = async () => {
+      try {
+        setLoading(true);
+        const data = await productService.getAll('Especial');
 
-    const especiales = productosUnicos.filter(
-      p => p.category?.toLowerCase() === 'especial'
-    );
+        setProductos(data);
+      } catch (error) {
+        console.error("Error cargando las colecciones especiales:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setProductosCombinados(especiales);
+    fetchEspeciales();
   }, []);
+
   return (
     <>
       <Navbar />
       <div className="container mt-4">
         <h1 className="text-center mb-4">Colecciones Especiales</h1>
-        <ProductGrid products={productosCombinados} />
+
+        {loading ? (
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        ) : (
+          <ProductGrid products={productos} />
+        )}
       </div>
     </>
   );
