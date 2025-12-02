@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../organisms/Navbar';
 import ProductGrid from '../organisms/ProductGrid';
-import products from '../../data/productsData';
-
+import { productService } from '../../services/productService';
 
 const Camisetas = () => {
-  const [productosCombinados, setProductosCombinados] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const productosLocal = JSON.parse(localStorage.getItem('productos')) || [];
-    const todos = [...products, ...productosLocal];
-    const productosUnicos = Array.from(
-      new Map(todos.map(p => [p.id, p])).values()
-    );
+    const fetchCamisetas = async () => {
+      try {
+        setLoading(true);
+        const data = await productService.getAll('Camiseta');
 
-    const camisetas = productosUnicos.filter(
-      p => p.category?.toLowerCase() === 'camiseta'
-    );
+        setProductos(data);
+      } catch (error) {
+        console.error("Error cargando las camisetas:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setProductosCombinados(camisetas);
+    fetchCamisetas();
   }, []);
 
   return (
@@ -25,7 +29,16 @@ const Camisetas = () => {
       <Navbar />
       <div className="container mt-4">
         <h1 className="text-center mb-4">Camisetas</h1>
-        <ProductGrid products={productosCombinados} />
+
+        {loading ? (
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        ) : (
+          <ProductGrid products={productos} />
+        )}
       </div>
     </>
   );

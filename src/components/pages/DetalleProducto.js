@@ -6,7 +6,7 @@ import ProductButton from '../atoms/ProductButton';
 import PriceTag from '../atoms/PriceTag';
 import styles from '../../styles/detalleProducto.css';
 import { useCart } from '../../contexts/CartContext';
-import productsData from '../../data/productsData';
+import { productService } from '../../services/productService';
 
 const DetalleProducto = () => {
     const { id } = useParams();
@@ -17,20 +17,25 @@ const DetalleProducto = () => {
     const [cantidad, setCantidad] = useState(1);
 
     useEffect(() => {
-        const productoId = parseInt(id, 10);
+        const fetchProducto = async () => {
+            try {
+                setLoading(true);
+                const data = await productService.getById(id);
 
-        if (productoId && productsData) {
-            const productoData = productsData.find(p => p.id === productoId);
-
-            if (productoData) {
-                setProducto(productoData);
-                setImagenPrincipal(productoData.image);
-                setLoading(false);
-            } else {
+                setProducto(data);
+                if (data && data.image) {
+                    setImagenPrincipal(data.image);
+                }
+            } catch (error) {
+                console.error("Error cargando producto:", error);
+                setProducto(null);
+            } finally {
                 setLoading(false);
             }
-        } else {
-            setLoading(false);
+        };
+
+        if (id) {
+            fetchProducto();
         }
     }, [id]);
 
@@ -74,15 +79,17 @@ const DetalleProducto = () => {
     };
 
     const getCategoriaLink = (categoria) => {
-        switch (categoria) {
-            case 'Camiseta':
-            case 'Polera':
+        const cat = categoria ? categoria.toLowerCase() : '';
+
+        switch (cat) {
+            case 'camiseta':
+            case 'polera':
                 return '/camisetas';
-            case 'Hoodie':
+            case 'hoodie':
                 return '/hoodies';
-            case 'Accesorio':
+            case 'accesorio':
                 return '/accesorios';
-            case 'Especial':
+            case 'especial':
                 return '/colecciones-especiales';
             default:
                 return '/';
@@ -157,11 +164,12 @@ const DetalleProducto = () => {
 
                         <div className={styles.productoPrecio}>
                             <PriceTag price={producto.price} />
-                            {/* {producto.originalPrice && (
-                                <span className={styles.productoPrecioOriginal}>
+                            {/* Lógica para precio original si existe en la API */}
+                            {producto.originalPrice && producto.originalPrice > producto.price && (
+                                <span className={styles.productoPrecioOriginal} style={{ textDecoration: 'line-through', marginLeft: '10px', color: '#999' }}>
                                     ${producto.originalPrice.toLocaleString('es-CL')}
                                 </span>
-                            )} */}
+                            )}
                         </div>
 
                         <p className={styles.productoDescripcion}>{producto.description}</p>
@@ -258,7 +266,6 @@ const DetalleProducto = () => {
                         </ProductButton>
 
                         <div className={`${styles.infoEnvio} mt-4`}>
-                            {/* <p><i className="bi bi-truck"></i> <strong>Envío gratuito</strong> en compras superiores a $50.000</p> */}
                             <p><i className="bi bi-arrow-left-right"></i> <strong>Devoluciones gratuitas</strong> dentro de los 30 días</p>
                         </div>
                     </div>

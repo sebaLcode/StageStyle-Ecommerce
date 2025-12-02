@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import FormGroup from "../molecules/FormGroup";
 import Button from "../atoms/Button";
-import productos from "../../data/productsData";
+import { productService } from "../../services/productService";
 
 const AdminProductForm = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const isEditing = Boolean(id);
+
     const [formData, setFormData] = useState({
         id: "",
         badge: "",
@@ -18,6 +23,39 @@ const AdminProductForm = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (isEditing) {
+            const loadProduct = async () => {
+                try {
+                    setIsLoading(true);
+                    const product = await productService.getById(id);
+
+                    setFormData({
+                        id: product.id || "",
+                        badge: product.badge || "",
+                        image: product.image || "",
+                        title: product.title || "",
+                        description: product.description || "",
+                        details: product.details || "",
+                        sizes: Array.isArray(product.sizes) ? product.sizes.join(", ") : "",
+                        price: product.price || "",
+                        originalPrice: product.originalPrice || "",
+                        category: product.category || "",
+                    });
+                } catch (error) {
+                    console.error("Error cargando producto:", error);
+                    alert("No se pudo cargar el producto para editar.");
+                    navigate("/admin/inventory");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            loadProduct();
+        }
+    }, [id, isEditing, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,53 +65,24 @@ const AdminProductForm = () => {
 
     const validateField = (name, value) => {
         let isValid = true;
-
         switch (name) {
-            case "id":
-                isValid = /^\d+$/.test(value);
-                break;
-            case "title":
-                isValid = value.trim().length > 0 && value.length <= 100;
-                break;
-            case "description":
-                isValid = value.length <= 500;
-                break;
-            case "details":
-                isValid = value.length <= 300;
-                break;
+            case "id": isValid = value.trim().length > 0; break;
+            case "title": isValid = value.trim().length > 0 && value.length <= 100; break;
+            case "description": isValid = value.length <= 500; break;
+            case "details": isValid = value.length <= 300; break;
             case "price":
-            case "originalPrice":
-                isValid = !isNaN(parseFloat(value)) && parseFloat(value) >= 0;
-                break;
-            case "image":
-                isValid =
-                    value.trim() === "" ||
-                    /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(value);
-                break;
-            case "category":
-                isValid = value.trim().length > 0;
-                break;
-            default:
-                break;
+            case "originalPrice": isValid = !isNaN(parseFloat(value)) && parseFloat(value) >= 0; break;
+            case "image": isValid = value.trim() === "" || /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/i.test(value); break;
+            case "category": isValid = value.trim().length > 0; break;
+            default: break;
         }
-
         setErrors((prev) => ({ ...prev, [name]: isValid }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const requiredFields = [
-            "id",
-            "badge",
-            "image",
-            "title",
-            "description",
-            "price",
-            "originalPrice",
-            "category",
-        ];
-
+        const requiredFields = ["id", "image", "title", "description", "price", "category"];
         let allValid = true;
         requiredFields.forEach((f) => {
             validateField(f, formData[f]);
@@ -81,60 +90,66 @@ const AdminProductForm = () => {
         });
 
         if (!allValid) {
-            alert("Arregla los campos en rojo.");
+            alert("Por favor corrige los campos en rojo.");
             return;
         }
 
-        const nuevoProducto = {
-            id: parseInt(formData.id),
+        setIsSubmitting(true);
+
+        const productoData = {
+            id: formData.id,
             badge: formData.badge.trim(),
             image: formData.image.trim(),
             title: formData.title.trim(),
             description: formData.description.trim(),
             details: formData.details.trim(),
-            sizes:
-                formData.sizes.trim() !== ""
-                    ? formData.sizes.split(",").map((s) => s.trim())
-                    : undefined,
+            sizes: formData.sizes.trim() !== "" ? formData.sizes.split(",").map((s) => s.trim()) : [],
             price: parseFloat(formData.price),
-            originalPrice: parseFloat(formData.originalPrice),
+            originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : 0,
             category: formData.category.trim(),
         };
 
-        productos.push(nuevoProducto);
-        localStorage.setItem("productos", JSON.stringify(productos));
+        try {
+            if (isEditing) {
+                await productService.update(id, productoData);
+                alert("¡Producto actualizado correctamente!");
+            } else {
+                await productService.create(productoData);
+                alert("¡Producto creado correctamente!");
+                setFormData({
+                    id: "", badge: "", image: "", title: "", description: "",
+                    details: "", sizes: "", price: "", originalPrice: "", category: "",
+                });
+            }
 
-        alert("Producto añadido correctamente.");
-        console.log("Nuevo producto:", nuevoProducto);
+            //navigate('/admin/inventory'); 
 
-        setFormData({
-            id: "",
-            badge: "",
-            image: "",
-            title: "",
-            description: "",
-            details: "",
-            sizes: "",
-            price: "",
-            originalPrice: "",
-            category: "",
-        });
-        setErrors({});
+        } catch (error) {
+            console.error("Error al guardar:", error);
+            alert("Error al guardar: " + error.message);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
+
+    if (isLoading) return <div className="text-center mt-5"><div className="spinner-border text-primary"></div><p>Cargando datos...</p></div>;
 
     return (
         <div className="card p-4 mx-auto" style={{ maxWidth: "900px" }}>
-            <h3 className="text-center mb-4 fw-bold">Registro de producto</h3>
+            <h3 className="text-center mb-4 fw-bold">
+                {isEditing ? "Editar Producto" : "Registro de Producto"}
+            </h3>
 
             <form onSubmit={handleSubmit}>
                 <FormGroup
                     label="ID del producto"
-                    type="number"
+                    type="text"
                     name="id"
                     placeholder="Ej: 20"
                     value={formData.id}
                     onChange={handleChange}
                     required
+                    disabled={isEditing}
                     isValid={errors.id}
                     isInvalid={formData.id && errors.id === false}
                 />
@@ -146,7 +161,6 @@ const AdminProductForm = () => {
                     placeholder="Ej: Jennie"
                     value={formData.badge}
                     onChange={handleChange}
-                    required
                 />
 
                 <FormGroup
@@ -226,7 +240,6 @@ const AdminProductForm = () => {
                             placeholder="Ej: 34990"
                             value={formData.originalPrice}
                             onChange={handleChange}
-                            required
                             isValid={errors.originalPrice}
                             isInvalid={
                                 formData.originalPrice && errors.originalPrice === false
@@ -255,8 +268,13 @@ const AdminProductForm = () => {
                 </FormGroup>
 
                 <div className="d-flex justify-content-center mt-4">
-                    <Button type="submit" variant="dark" className="w-50">
-                        Añadir producto
+                    <Button
+                        type="submit"
+                        variant="dark"
+                        className="w-50"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "Guardando..." : (isEditing ? "Actualizar Producto" : "Añadir Producto")}
                     </Button>
                 </div>
             </form>
