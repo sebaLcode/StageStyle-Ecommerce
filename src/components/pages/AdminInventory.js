@@ -11,6 +11,7 @@ const AdminInventory = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+
     useEffect(() => {
         const fetchProductos = async () => {
             try {
@@ -27,6 +28,25 @@ const AdminInventory = () => {
         fetchProductos();
     }, []);
 
+    const handleDelete = async (id) => {
+        if (window.confirm("¿Estás seguro que deseas eliminar este producto?")) {
+            try {
+                await productService.delete(id);
+
+                setProductos(prevProductos => prevProductos.filter(p => p.id !== id));
+
+                alert("Producto eliminado correctamente.");
+            } catch (error) {
+                console.error("Error al eliminar:", error);
+                alert("Hubo un error al eliminar el producto.");
+            }
+        }
+    };
+
+    const handleEdit = (id) => {
+        navigate(`/admin/inventory/edit/${id}`);
+    };
+
     const totalPages = Math.ceil(productos.length / itemsPerPage);
     const paginated = productos.slice(
         (currentPage - 1) * itemsPerPage,
@@ -42,6 +62,7 @@ const AdminInventory = () => {
                         <i className="bi bi-plus-circle me-2"></i>Nuevo producto
                     </Button>
                 </div>
+
                 {loading ? (
                     <div className="text-center my-5">
                         <div className="spinner-border text-primary" role="status">
@@ -51,9 +72,12 @@ const AdminInventory = () => {
                     </div>
                 ) : (
                     <>
-                        <ProductTable products={paginated} />
+                        <ProductTable
+                            products={paginated}
+                            onDelete={handleDelete}
+                            onEdit={handleEdit}
+                        />
 
-                        {/*Solo se muestra si hay productos*/}
                         {productos.length > 0 && (
                             <div className="d-flex justify-content-center mt-3">
                                 <nav>

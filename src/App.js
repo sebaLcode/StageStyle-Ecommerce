@@ -67,6 +67,14 @@ function App() {
             }
           />
           <Route
+            path="/admin/inventory/edit/:id"
+            element={
+              <ProtectedRoute allowedRoles={['Administrador']}>
+                <AdminNewProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/admin/customers"
             element={
               <ProtectedRoute allowedRoles={['Administrador', 'Vendedor']}>

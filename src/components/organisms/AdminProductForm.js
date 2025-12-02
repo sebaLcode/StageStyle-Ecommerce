@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import FormGroup from "../molecules/FormGroup";
 import Button from "../atoms/Button";
 import { productService } from "../../services/productService";
 
 const AdminProductForm = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const isEditing = Boolean(id);
+
     const [formData, setFormData] = useState({
         id: "",
         badge: "",
@@ -19,6 +24,38 @@ const AdminProductForm = () => {
 
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (isEditing) {
+            const loadProduct = async () => {
+                try {
+                    setIsLoading(true);
+                    const product = await productService.getById(id);
+
+                    setFormData({
+                        id: product.id || "",
+                        badge: product.badge || "",
+                        image: product.image || "",
+                        title: product.title || "",
+                        description: product.description || "",
+                        details: product.details || "",
+                        sizes: Array.isArray(product.sizes) ? product.sizes.join(", ") : "",
+                        price: product.price || "",
+                        originalPrice: product.originalPrice || "",
+                        category: product.category || "",
+                    });
+                } catch (error) {
+                    console.error("Error cargando producto:", error);
+                    alert("No se pudo cargar el producto para editar.");
+                    navigate("/admin/inventory");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            loadProduct();
+        }
+    }, [id, isEditing, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,51 +65,24 @@ const AdminProductForm = () => {
 
     const validateField = (name, value) => {
         let isValid = true;
-
         switch (name) {
-            case "id":
-                isValid = value.trim().length > 0;
-                break;
-            case "title":
-                isValid = value.trim().length > 0 && value.length <= 100;
-                break;
-            case "description":
-                isValid = value.length <= 500;
-                break;
-            case "details":
-                isValid = value.length <= 300;
-                break;
+            case "id": isValid = value.trim().length > 0; break;
+            case "title": isValid = value.trim().length > 0 && value.length <= 100; break;
+            case "description": isValid = value.length <= 500; break;
+            case "details": isValid = value.length <= 300; break;
             case "price":
-            case "originalPrice":
-                isValid = !isNaN(parseFloat(value)) && parseFloat(value) >= 0;
-                break;
-            case "image":
-                isValid =
-                    value.trim() === "" ||
-                    /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/i.test(value);
-                break;
-            case "category":
-                isValid = value.trim().length > 0;
-                break;
-            default:
-                break;
+            case "originalPrice": isValid = !isNaN(parseFloat(value)) && parseFloat(value) >= 0; break;
+            case "image": isValid = value.trim() === "" || /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/i.test(value); break;
+            case "category": isValid = value.trim().length > 0; break;
+            default: break;
         }
-
         setErrors((prev) => ({ ...prev, [name]: isValid }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const requiredFields = [
-            "id",
-            "image",
-            "title",
-            "description",
-            "price",
-            "category",
-        ];
-
+        const requiredFields = ["id", "image", "title", "description", "price", "category"];
         let allValid = true;
         requiredFields.forEach((f) => {
             validateField(f, formData[f]);
@@ -86,56 +96,49 @@ const AdminProductForm = () => {
 
         setIsSubmitting(true);
 
-        const nuevoProducto = {
-            id: formData.id, 
+        const productoData = {
+            id: formData.id,
             badge: formData.badge.trim(),
             image: formData.image.trim(),
             title: formData.title.trim(),
             description: formData.description.trim(),
             details: formData.details.trim(),
-            sizes:
-                formData.sizes.trim() !== ""
-                    ? formData.sizes.split(",").map((s) => s.trim())
-                    : [],
+            sizes: formData.sizes.trim() !== "" ? formData.sizes.split(",").map((s) => s.trim()) : [],
             price: parseFloat(formData.price),
             originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : 0,
             category: formData.category.trim(),
         };
 
         try {
-            // 3. Llamada real a la API
-            await productService.create(nuevoProducto);
+            if (isEditing) {
+                await productService.update(id, productoData);
+                alert("¡Producto actualizado correctamente!");
+            } else {
+                await productService.create(productoData);
+                alert("¡Producto creado correctamente!");
+                setFormData({
+                    id: "", badge: "", image: "", title: "", description: "",
+                    details: "", sizes: "", price: "", originalPrice: "", category: "",
+                });
+            }
 
-            alert("¡Producto añadido correctamente a la base de datos!");
-            console.log("Nuevo producto creado:", nuevoProducto);
-
-            // Reseteamos el formulario
-            setFormData({
-                id: "",
-                badge: "",
-                image: "",
-                title: "",
-                description: "",
-                details: "",
-                sizes: "",
-                price: "",
-                originalPrice: "",
-                category: "",
-            });
-            setErrors({});
+            //navigate('/admin/inventory'); 
 
         } catch (error) {
-            // 4. Manejo de errores que vienen del backend (ej: ID duplicado)
-            console.error("Error al crear:", error);
+            console.error("Error al guardar:", error);
             alert("Error al guardar: " + error.message);
         } finally {
-            setIsSubmitting(false); // Liberamos botón
+            setIsSubmitting(false);
         }
     };
 
+    if (isLoading) return <div className="text-center mt-5"><div className="spinner-border text-primary"></div><p>Cargando datos...</p></div>;
+
     return (
         <div className="card p-4 mx-auto" style={{ maxWidth: "900px" }}>
-            <h3 className="text-center mb-4 fw-bold">Registro de producto</h3>
+            <h3 className="text-center mb-4 fw-bold">
+                {isEditing ? "Editar Producto" : "Registro de Producto"}
+            </h3>
 
             <form onSubmit={handleSubmit}>
                 <FormGroup
@@ -146,6 +149,7 @@ const AdminProductForm = () => {
                     value={formData.id}
                     onChange={handleChange}
                     required
+                    disabled={isEditing}
                     isValid={errors.id}
                     isInvalid={formData.id && errors.id === false}
                 />
@@ -270,7 +274,7 @@ const AdminProductForm = () => {
                         className="w-50"
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? "Guardando..." : "Añadir producto"}
+                        {isSubmitting ? "Guardando..." : (isEditing ? "Actualizar Producto" : "Añadir Producto")}
                     </Button>
                 </div>
             </form>
