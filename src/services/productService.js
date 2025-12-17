@@ -1,5 +1,6 @@
 // src/services/productService.js
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+// const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000' || 'http://34.229.184.27:4000';
+const API_URL = 'http://34.229.184.27:4000';
 const getToken = () => localStorage.getItem('userToken');
 
 export const productService = {
@@ -21,9 +22,12 @@ export const productService = {
     },
 
     create: async (productData) => {
+        const token = getToken();
         const response = await fetch(`${API_URL}/productos`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+             },
             body: JSON.stringify(productData)
         });
 
