@@ -41,6 +41,7 @@ function LoginForm() {
       const userCredential = await signInWithEmailAndPassword(auth, formData.email.trim(), formData.password.trim());
       const user = userCredential.user;
 
+      //Acá firebase nos da el token para la sesión
       const token = await user.getIdToken();
       localStorage.setItem('userToken', token);
 

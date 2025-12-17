@@ -1,4 +1,5 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+// const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000' || 'http://34.229.184.27:4000';
+const API_URL = 'http://34.229.184.27:4000';
 const getToken = () => localStorage.getItem('userToken');
 
 export const userService = {
